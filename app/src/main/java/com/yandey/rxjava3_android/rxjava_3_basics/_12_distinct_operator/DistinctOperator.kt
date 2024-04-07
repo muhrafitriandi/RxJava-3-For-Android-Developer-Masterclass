@@ -1,4 +1,4 @@
-package com.yandey.rxjava3_android.rxjava_3_basics
+package com.yandey.rxjava3_android.rxjava_3_basics._12_distinct_operator
 
 import android.annotation.SuppressLint
 import io.reactivex.rxjava3.core.Observable
