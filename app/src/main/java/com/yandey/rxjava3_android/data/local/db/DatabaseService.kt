@@ -1,11 +1,11 @@
-package com.yandey.rxjava3_android.local.db
+package com.yandey.rxjava3_android.data.local.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.yandey.rxjava3_android.local.dao.StudentDao
-import com.yandey.rxjava3_android.local.entity.StudentEntity
+import com.yandey.rxjava3_android.data.local.dao.StudentDao
+import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 
 @Database(entities = [StudentEntity::class], version = 1, exportSchema = false)
 abstract class DatabaseService : RoomDatabase() {

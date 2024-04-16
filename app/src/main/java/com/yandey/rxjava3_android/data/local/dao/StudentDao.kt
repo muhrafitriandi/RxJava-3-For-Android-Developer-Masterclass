@@ -1,4 +1,4 @@
-package com.yandey.rxjava3_android.local.dao
+package com.yandey.rxjava3_android.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.yandey.rxjava3_android.local.entity.StudentEntity
+import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 

@@ -1,6 +1,6 @@
-package com.yandey.rxjava3_android.repository
+package com.yandey.rxjava3_android.data.repository
 
-import com.yandey.rxjava3_android.local.entity.StudentEntity
+import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 

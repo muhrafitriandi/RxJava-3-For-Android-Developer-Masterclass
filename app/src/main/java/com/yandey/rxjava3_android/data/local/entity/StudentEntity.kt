@@ -1,4 +1,4 @@
-package com.yandey.rxjava3_android.local.entity
+package com.yandey.rxjava3_android.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
