@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Customize your Field here. -->
+    <style name="Theme.MyApp.ShapeAppearance.TextInputLayout" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Theme.MyApp.TextField.Outlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearance">@style/Theme.MyApp.ShapeAppearance.TextInputLayout</item>
+    </style>
+</resources>
