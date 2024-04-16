@@ -55,5 +55,8 @@ dependencies {
     // https://developer.android.com/jetpack/androidx/releases/room
     implementation("androidx.room:room-rxjava3:2.6.1")
     // https://developer.android.com/build/migrate-to-ksp
-    ksp("androidx.room:room-compiler:2.61")
+    ksp("androidx.room:room-compiler:2.6.1")
+
+    // https://developer.android.com/jetpack/androidx/releases/activity
+    implementation("androidx.activity:activity-ktx:1.8.2")
 }

@@ -1,7 +1,8 @@
-package com.yandey.rxjava3_android
+package com.yandey.rxjava3_android.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.yandey.rxjava3_android.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
