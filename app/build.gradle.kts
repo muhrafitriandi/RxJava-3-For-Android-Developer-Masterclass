@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -45,6 +46,14 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("io.reactivex.rxjava3:rxjava:3.1.5")
+    // https://github.com/ReactiveX/RxJava
+    implementation("io.reactivex.rxjava3:rxjava:3.1.8")
+
+    // https://github.com/ReactiveX/RxAndroid
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+
+    // https://developer.android.com/jetpack/androidx/releases/room
+    implementation("androidx.room:room-rxjava3:2.6.1")
+    // https://developer.android.com/build/migrate-to-ksp
+    ksp("androidx.room:room-compiler:2.61")
 }
