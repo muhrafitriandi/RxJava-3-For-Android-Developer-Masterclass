@@ -15,7 +15,7 @@ data class StudentEntity(
     val name: String,
 
     @ColumnInfo(name = "age")
-    val age: String,
+    val age: Int,
 
     @ColumnInfo(name = "subject")
     val subject: String,

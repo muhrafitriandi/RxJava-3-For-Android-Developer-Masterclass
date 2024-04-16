@@ -22,5 +22,5 @@ interface StudentDao {
     fun delete(studentEntity: StudentEntity): Completable
 
     @Query("SELECT * FROM student ORDER BY name ASC")
-    fun getAllStudent(studentEntity: StudentEntity): Flowable<List<StudentEntity>>
+    fun getAllStudent(): Flowable<List<StudentEntity>>
 }

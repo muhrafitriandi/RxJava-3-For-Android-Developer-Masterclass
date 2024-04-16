@@ -16,22 +16,19 @@ abstract class DatabaseService : RoomDatabase() {
         private var INSTANCE: DatabaseService? = null
 
         fun getInstance(context: Context): DatabaseService {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        DatabaseService::class.java,
-                        "student_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-
-                    INSTANCE = instance
-                }
-                return instance
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
             }
+        }
+
+        private fun buildDatabase(context: Context): DatabaseService {
+            return Room.databaseBuilder(
+                context.applicationContext,
+                DatabaseService::class.java,
+                "student_database.db"
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
