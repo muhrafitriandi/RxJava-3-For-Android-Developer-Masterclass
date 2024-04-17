@@ -23,9 +23,7 @@ class MainViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    loadStudents()
-                },
+                {},
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }
@@ -41,9 +39,7 @@ class MainViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    loadStudents()
-                },
+                {},
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }
@@ -59,9 +55,7 @@ class MainViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    loadStudents()
-                },
+                {},
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }

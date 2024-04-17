@@ -10,6 +10,8 @@ import com.yandey.rxjava3_android.adapter.StudentAdapter
 import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddStudentBinding
+import com.yandey.rxjava3_android.util.setGone
+import com.yandey.rxjava3_android.util.setVisible
 import com.yandey.rxjava3_android.util.showDialog
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             MainUiState.Loading -> {
-                // Do Something
+                onLoad()
             }
 
             is MainUiState.Success -> {
@@ -123,7 +125,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun onSuccess(uiState: MainUiState.Success) {
+    private fun onSuccess(uiState: MainUiState.Success) = with(binding) {
         studentAdapter.submitList(uiState.students)
+        pbStudent.setGone()
+        rvStudent.setVisible()
+    }
+
+    private fun onLoad() = with(binding) {
+        pbStudent.setVisible()
+        rvStudent.setGone()
     }
 }
