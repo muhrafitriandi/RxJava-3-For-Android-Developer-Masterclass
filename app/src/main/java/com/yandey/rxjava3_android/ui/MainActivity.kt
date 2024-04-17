@@ -6,7 +6,9 @@ import android.view.View
 import androidx.activity.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandey.rxjava3_android.R
+import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
+import com.yandey.rxjava3_android.databinding.DialogAddStudentBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy {
@@ -36,6 +38,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun startOnClickListener() = with(binding) {
+        fabAddStudent.setOnClickListener(this@MainActivity)
+    }
+
     private fun render(uiState: MainUiState) {
         when (uiState) {
             is MainUiState.Error -> {
@@ -53,23 +59,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_student, null)
+        val dialogBinding = DialogAddStudentBinding.inflate(layoutInflater)
 
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(this@MainActivity)
             .setTitle("Add New Student")
             .setMessage("Please enter the student's information below.")
-            .setView(dialogView)
+            .setView(dialogBinding.root)
             .setNeutralButton("Cancel") { dialog, _ ->
                 // Respond to neutral button press
                 dialog.dismiss()
             }
             .setPositiveButton("Save") { _, _ ->
-                // Respond to positive button press
+                mainViewModel.insertStudent(
+                    StudentEntity(
+                        name = dialogBinding.etName.text.toString(),
+                        age = dialogBinding.etAge.text.toString().toInt(),
+                        subject = dialogBinding.etSubject.text.toString()
+                    )
+                )
             }
             .show()
-    }
-
-    private fun startOnClickListener() = with(binding) {
-        fabAddStudent.setOnClickListener(this@MainActivity)
     }
 }
