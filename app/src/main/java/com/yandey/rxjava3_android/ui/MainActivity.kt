@@ -75,6 +75,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun upsertDialog(isUpdate: Boolean = false, existingStudent: StudentEntity? = null) {
         val dialogBinding = DialogAddStudentBinding.inflate(layoutInflater)
 
+        if (isUpdate && existingStudent != null) {
+            dialogBinding.etName.setText(existingStudent.name)
+            dialogBinding.etAge.setText(existingStudent.age.toString())
+            dialogBinding.etSubject.setText(existingStudent.subject)
+        }
+
         this.showDialog(
             title = if (isUpdate) "Update Student" else "Add New Student",
             message = "Please enter the student's information below.",
