@@ -55,7 +55,7 @@ class MainViewModel(
     fun deleteStudent(studentEntity: StudentEntity) {
         uiState.value = MainUiState.Loading
 
-        studentRepository.update(studentEntity)
+        studentRepository.delete(studentEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

@@ -9,7 +9,8 @@ import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ItemListStudentBinding
 
 class StudentAdapter(
-    private val onEditListener: (StudentEntity) -> Unit
+    private val onEditListener: (StudentEntity) -> Unit,
+    private val onDeleteListener: (StudentEntity) -> Unit
 ): ListAdapter<StudentEntity, StudentAdapter.StudentViewHolder>(DIFF_CALLBACK) {
 
     inner class StudentViewHolder(
@@ -23,6 +24,10 @@ class StudentAdapter(
 
             ibEdit.setOnClickListener {
                 onEditListener(studentEntity)
+            }
+
+            ibDelete.setOnClickListener {
+                onDeleteListener(studentEntity)
             }
         }
     }

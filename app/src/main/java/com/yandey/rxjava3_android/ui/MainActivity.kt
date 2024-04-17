@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.StudentAdapter
 import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddStudentBinding
+import com.yandey.rxjava3_android.util.showDialog
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy {
@@ -22,9 +22,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private val studentAdapter by lazy {
-        StudentAdapter {
-            upsertDialog(true, it)
-        }
+        StudentAdapter(
+            onEditListener = { upsertDialog(true, it) },
+            onDeleteListener = { deleteDialog(it) }
+        )
     }
 
     private val linearLayoutManager by lazy {
@@ -74,22 +75,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun upsertDialog(isUpdate: Boolean = false, existingStudent: StudentEntity? = null) {
         val dialogBinding = DialogAddStudentBinding.inflate(layoutInflater)
 
-        if (isUpdate && existingStudent != null) {
-            with(dialogBinding) {
-                etName.setText(existingStudent.name)
-                etAge.setText(existingStudent.age.toString())
-                etSubject.setText(existingStudent.subject)
-            }
-        }
-
-        MaterialAlertDialogBuilder(this@MainActivity)
-            .setTitle(if (isUpdate) "Update Student" else "Add New Student")
-            .setMessage("Please enter the student's information below.")
-            .setView(dialogBinding.root)
-            .setNeutralButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setPositiveButton(if (isUpdate) "Update" else "Save") { _, _ ->
+        this.showDialog(
+            title = if (isUpdate) "Update Student" else "Add New Student",
+            message = "Please enter the student's information below.",
+            view = dialogBinding.root,
+            neutralButtonText = "Cancel",
+            onNeutralAction = { it.dismiss() },
+            positiveButtonText = if (isUpdate) "Update" else "Save",
+            onPositiveAction = {
                 val name = dialogBinding.etName.text.toString()
                 val age = dialogBinding.etAge.text.toString().toIntOrNull() ?: 0
                 val subject = dialogBinding.etSubject.text.toString()
@@ -100,7 +93,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     mainViewModel.insertStudent(StudentEntity(name = name, age = age, subject = subject))
                 }
             }
-            .show()
+        )
+    }
+
+    private fun deleteDialog(existingStudent: StudentEntity) {
+        this.showDialog(
+            title = "Delete Student",
+            message = "Are you sure want to delete `${existingStudent.name}`?",
+            neutralButtonText = "Cancel",
+            onNeutralAction = { it.dismiss() },
+            positiveButtonText = "Delete",
+            onPositiveAction = {
+                mainViewModel.deleteStudent(existingStudent)
+            }
+        )
     }
 
     private fun initStudentAdapter() = with(binding) {
