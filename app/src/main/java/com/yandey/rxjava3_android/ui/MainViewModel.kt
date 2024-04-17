@@ -54,14 +54,17 @@ class MainViewModel(
             }
     }
 
-    fun deleteStudent(studentEntity: StudentEntity) {
+    fun deleteStudent(
+        studentEntity: StudentEntity,
+        onDeleteComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         studentRepository.delete(studentEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {},
+                { onDeleteComplete() },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }

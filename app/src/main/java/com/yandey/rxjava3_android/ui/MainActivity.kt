@@ -116,7 +116,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             onNeutralAction = { it.dismiss() },
             positiveButtonText = "Delete",
             onPositiveAction = {
-                mainViewModel.deleteStudent(existingStudent)
+                mainViewModel.deleteStudent(existingStudent) {
+                    deletedSuccessDialog()
+                }
             }
         )
     }
@@ -125,6 +127,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         this@MainActivity.showDialog(
             title = "Great!",
             message = "Your data was saved successfully",
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
+        )
+    }
+
+    private fun deletedSuccessDialog() {
+        this@MainActivity.showDialog(
+            title = "Great!",
+            message = "Your data was deleted successfully",
             positiveButtonText = "OK",
             onPositiveAction = { it.dismiss() }
         )
