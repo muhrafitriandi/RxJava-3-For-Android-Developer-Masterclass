@@ -16,14 +16,17 @@ class MainViewModel(
         loadStudents()
     }
 
-    fun insertStudent(studentEntity: StudentEntity) {
+    fun insertStudent(
+        studentEntity: StudentEntity,
+        onInsertComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         studentRepository.insert(studentEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {},
+                { onInsertComplete() },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }
@@ -32,14 +35,17 @@ class MainViewModel(
             }
     }
 
-    fun updateStudent(studentEntity: StudentEntity) {
+    fun updateStudent(
+        studentEntity: StudentEntity,
+        onUpdateComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         studentRepository.update(studentEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {},
+                { onUpdateComplete() },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }

@@ -96,9 +96,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val subject = dialogBinding.etSubject.text.toString()
 
                 if (isUpdate && existingStudent != null) {
-                    mainViewModel.updateStudent(existingStudent.copy(name = name, age = age, subject = subject))
+                    mainViewModel.updateStudent(
+                        existingStudent.copy(name = name, age = age, subject = subject)
+                    ) { upsertSuccessDialog() }
                 } else {
-                    mainViewModel.insertStudent(StudentEntity(name = name, age = age, subject = subject))
+                    mainViewModel.insertStudent(
+                        StudentEntity(name = name, age = age, subject = subject)
+                    ) { upsertSuccessDialog() }
                 }
             }
         )
@@ -114,6 +118,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             onPositiveAction = {
                 mainViewModel.deleteStudent(existingStudent)
             }
+        )
+    }
+
+    private fun upsertSuccessDialog() {
+        this@MainActivity.showDialog(
+            title = "Great!",
+            message = "Your data was saved successfully",
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
         )
     }
 

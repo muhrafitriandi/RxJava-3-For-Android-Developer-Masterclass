@@ -9,20 +9,20 @@ fun Context.showDialog(
     title: String,
     message: String,
     view: View? = null,
-    neutralButtonText: String,
-    onNeutralAction: (DialogInterface) -> Unit,
+    neutralButtonText: String = "",
+    onNeutralAction: ((DialogInterface) -> Unit)? = null,
     positiveButtonText: String,
-    onPositiveAction: () -> Unit
+    onPositiveAction: (DialogInterface) -> Unit
 ) {
     MaterialAlertDialogBuilder(this)
         .setTitle(title)
         .setMessage(message)
         .setView(view)
         .setNeutralButton(neutralButtonText) { dialog, _ ->
-            onNeutralAction(dialog)
+            onNeutralAction?.invoke(dialog)
         }
-        .setPositiveButton(positiveButtonText) { _, _ ->
-            onPositiveAction()
+        .setPositiveButton(positiveButtonText) { dialog, _ ->
+            onPositiveAction(dialog)
         }
         .show()
 }
