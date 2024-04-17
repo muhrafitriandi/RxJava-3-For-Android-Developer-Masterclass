@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandey.rxjava3_android.R
+import com.yandey.rxjava3_android.adapter.StudentAdapter
 import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddStudentBinding
@@ -19,6 +21,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         ViewModelFactory.getInstance(this)
     }
 
+    private val studentAdapter by lazy {
+        StudentAdapter()
+    }
+
+    private val linearLayoutManager by lazy {
+        LinearLayoutManager(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -30,6 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         startOnClickListener()
+        initStudentAdapter()
     }
 
     override fun onClick(v: View) {
@@ -53,7 +64,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             is MainUiState.Success -> {
-                // Do Something
+                onSuccess(uiState)
             }
         }
     }
@@ -79,5 +90,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 )
             }
             .show()
+    }
+
+    private fun initStudentAdapter() = with(binding) {
+        with(rvStudent) {
+            layoutManager = linearLayoutManager
+            setHasFixedSize(true)
+            adapter = studentAdapter
+        }
+    }
+
+    private fun onSuccess(uiState: MainUiState.Success) {
+        studentAdapter.submitList(uiState.students)
     }
 }
