@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private val studentAdapter by lazy {
-        StudentAdapter()
+        StudentAdapter {
+            upsertDialog(true, it)
+        }
     }
 
     private val linearLayoutManager by lazy {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.fab_add_student -> showDialog()
+            R.id.fab_add_student -> upsertDialog()
         }
     }
 
@@ -69,25 +71,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showDialog() {
+    private fun upsertDialog(isUpdate: Boolean = false, existingStudent: StudentEntity? = null) {
         val dialogBinding = DialogAddStudentBinding.inflate(layoutInflater)
 
+        if (isUpdate && existingStudent != null) {
+            with(dialogBinding) {
+                etName.setText(existingStudent.name)
+                etAge.setText(existingStudent.age.toString())
+                etSubject.setText(existingStudent.subject)
+            }
+        }
+
         MaterialAlertDialogBuilder(this@MainActivity)
-            .setTitle("Add New Student")
+            .setTitle(if (isUpdate) "Update Student" else "Add New Student")
             .setMessage("Please enter the student's information below.")
             .setView(dialogBinding.root)
             .setNeutralButton("Cancel") { dialog, _ ->
-                // Respond to neutral button press
                 dialog.dismiss()
             }
-            .setPositiveButton("Save") { _, _ ->
-                mainViewModel.insertStudent(
-                    StudentEntity(
-                        name = dialogBinding.etName.text.toString(),
-                        age = dialogBinding.etAge.text.toString().toInt(),
-                        subject = dialogBinding.etSubject.text.toString()
-                    )
-                )
+            .setPositiveButton(if (isUpdate) "Update" else "Save") { _, _ ->
+                val name = dialogBinding.etName.text.toString()
+                val age = dialogBinding.etAge.text.toString().toIntOrNull() ?: 0
+                val subject = dialogBinding.etSubject.text.toString()
+
+                if (isUpdate && existingStudent != null) {
+                    mainViewModel.updateStudent(existingStudent.copy(name = name, age = age, subject = subject))
+                } else {
+                    mainViewModel.insertStudent(StudentEntity(name = name, age = age, subject = subject))
+                }
             }
             .show()
     }

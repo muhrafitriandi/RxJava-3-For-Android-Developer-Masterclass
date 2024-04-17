@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yandey.rxjava3_android.data.local.entity.StudentEntity
 import com.yandey.rxjava3_android.databinding.ItemListStudentBinding
 
-class StudentAdapter: ListAdapter<StudentEntity, StudentAdapter.StudentViewHolder>(DIFF_CALLBACK) {
+class StudentAdapter(
+    private val onEditListener: (StudentEntity) -> Unit
+): ListAdapter<StudentEntity, StudentAdapter.StudentViewHolder>(DIFF_CALLBACK) {
 
-    class StudentViewHolder(
+    inner class StudentViewHolder(
         private val binding: ItemListStudentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(studentEntity: StudentEntity) = with(binding) {
@@ -18,6 +20,10 @@ class StudentAdapter: ListAdapter<StudentEntity, StudentAdapter.StudentViewHolde
             tvName.text = studentEntity.name
             tvAge.text = studentEntity.age.toString()
             tvSubject.text = studentEntity.subject
+
+            ibEdit.setOnClickListener {
+                onEditListener(studentEntity)
+            }
         }
     }
 
