@@ -2,8 +2,11 @@ package com.yandey.rxjava3_android.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.StudentAdapter
@@ -14,7 +17,7 @@ import com.yandey.rxjava3_android.util.setGone
 import com.yandey.rxjava3_android.util.setVisible
 import com.yandey.rxjava3_android.util.showDialog
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, OnQueryTextListener {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -46,6 +49,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         startOnClickListener()
         initStudentAdapter()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val search = menu?.findItem(R.id.menu_search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
     }
 
     override fun onClick(v: View) {
