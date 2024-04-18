@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun render(uiState: MainUiState) {
         when (uiState) {
             is MainUiState.Error -> {
-                // Do Something
+                onError(uiState)
             }
 
             MainUiState.Loading -> {
@@ -158,5 +158,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun onLoad() = with(binding) {
         pbStudent.setVisible()
         rvStudent.setGone()
+    }
+
+    private fun onError(uiState: MainUiState.Error) = with(binding) {
+        pbStudent.setGone()
+        this@MainActivity.showDialog(
+            title = "Error!",
+            message = uiState.message,
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
+        )
     }
 }
