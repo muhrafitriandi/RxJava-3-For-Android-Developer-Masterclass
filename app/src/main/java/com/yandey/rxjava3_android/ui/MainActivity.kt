@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun onSuccess(uiState: MainUiState.Success) = with(binding) {
         studentAdapter.submitList(uiState.students)
+        rvStudent.post { rvStudent.scrollToPosition(0) }
         pbStudent.setGone()
         rvStudent.setVisible()
     }
