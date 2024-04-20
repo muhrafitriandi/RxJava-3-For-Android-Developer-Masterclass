@@ -91,6 +91,24 @@ class MainViewModel(
             }
     }
 
+    private fun getStudentsByName(name: String) {
+        uiState.value = MainUiState.Loading
+
+        studentRepository.getStudentsByName(name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { students ->
+                    uiState.value = MainUiState.Success(students)
+                },
+                { error ->
+                    uiState.value = MainUiState.Error(error.message.toString())
+                }
+            ).also {
+                compositeDisposable.add(it)
+            }
+    }
+
     override fun onCleared() {
         compositeDisposable.clear()
         super.onCleared()

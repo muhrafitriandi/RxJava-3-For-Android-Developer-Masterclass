@@ -23,4 +23,7 @@ interface StudentDao {
 
     @Query("SELECT * FROM student ORDER BY name ASC")
     fun getAllStudent(): Flowable<List<StudentEntity>>
+
+    @Query("SELECT * FROM student WHERE name LIKE '%' || :name || '%'")
+    fun getStudentsByName(name: String): Flowable<List<StudentEntity>>
 }

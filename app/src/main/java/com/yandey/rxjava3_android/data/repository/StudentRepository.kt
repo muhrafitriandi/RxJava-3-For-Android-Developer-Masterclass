@@ -9,4 +9,5 @@ interface StudentRepository {
     fun update(studentEntity: StudentEntity): Completable
     fun delete(studentEntity: StudentEntity): Completable
     fun getAllStudent(): Flowable<List<StudentEntity>>
+    fun getStudentsByName(name: String): Flowable<List<StudentEntity>>
 }

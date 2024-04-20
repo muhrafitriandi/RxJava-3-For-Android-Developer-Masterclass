@@ -24,6 +24,10 @@ class StudentRepositoryImpl(
         return studentDao.getAllStudent()
     }
 
+    override fun getStudentsByName(name: String): Flowable<List<StudentEntity>> {
+        return studentDao.getStudentsByName(name)
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: StudentRepository? = null
