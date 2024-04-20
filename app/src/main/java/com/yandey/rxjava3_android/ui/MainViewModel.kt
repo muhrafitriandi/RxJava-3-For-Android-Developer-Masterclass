@@ -6,14 +6,18 @@ import com.yandey.rxjava3_android.data.repository.StudentRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val studentRepository: StudentRepository
 ) : BaseViewModel<MainUiState>() {
     private val compositeDisposable = CompositeDisposable()
+    private val searchSubject = PublishSubject.create<String>()
 
     init {
         loadStudents()
+        getStudentsByName()
     }
 
     fun insertStudent(
@@ -91,12 +95,17 @@ class MainViewModel(
             }
     }
 
-    private fun getStudentsByName(name: String) {
-        uiState.value = MainUiState.Loading
-
-        studentRepository.getStudentsByName(name)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    private fun getStudentsByName() {
+        searchSubject
+            .debounce(1, TimeUnit.SECONDS)
+            .distinctUntilChanged()
+            .doOnNext { uiState.postValue(MainUiState.Loading) }
+            .flatMap { query ->
+                studentRepository.getStudentsByName(query)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toObservable()
+            }
             .subscribe(
                 { students ->
                     uiState.value = MainUiState.Success(students)
@@ -104,9 +113,11 @@ class MainViewModel(
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
                 }
-            ).also {
-                compositeDisposable.add(it)
-            }
+            ).also { compositeDisposable.add(it) }
+    }
+
+    fun searchStudentByName(query: String) {
+        searchSubject.onNext(query)
     }
 
     override fun onCleared() {
