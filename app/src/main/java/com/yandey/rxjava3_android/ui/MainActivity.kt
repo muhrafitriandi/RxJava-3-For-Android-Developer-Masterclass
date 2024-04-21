@@ -2,12 +2,16 @@ package com.yandey.rxjava3_android.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.TaskAdapter
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
+import com.yandey.rxjava3_android.databinding.DialogAddTaskBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -36,6 +40,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         initTaskAdapter()
+        startOnClickListener()
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.fab_add_task -> showAddDialog()
+        }
+    }
+
+    private fun startOnClickListener() = with(binding) {
+        fabAddTask.setOnClickListener(this@MainActivity)
     }
 
     private fun render(uiState: MainUiState) {
@@ -50,6 +65,22 @@ class MainActivity : AppCompatActivity() {
                 onSuccess(uiState)
             }
         }
+    }
+
+    private fun showAddDialog() {
+        val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Add Task")
+            .setMessage("Please enter the task's information below.")
+            .setView(dialogBinding.root)
+            .setNeutralButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Save") { _, _ ->
+
+            }
+            .show()
     }
 
     private fun initTaskAdapter() = with(binding) {
