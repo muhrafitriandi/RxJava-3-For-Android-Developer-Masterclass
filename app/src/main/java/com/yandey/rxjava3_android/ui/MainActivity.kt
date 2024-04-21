@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 // Do Something
             }
             is MainUiState.Success -> {
-                // Do Something
+                onSuccess(uiState)
             }
         }
     }
@@ -58,5 +58,9 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             adapter = taskAdapter
         }
+    }
+
+    private fun onSuccess(uiState: MainUiState.Success) {
+        taskAdapter.submitList(uiState.taskResponse)
     }
 }

@@ -3,7 +3,7 @@ package com.yandey.rxjava3_android.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.yandey.rxjava3_android.data.di.Injection
+import com.yandey.rxjava3_android.di.Injection
 import com.yandey.rxjava3_android.data.repository.TaskRepository
 
 class ViewModelFactory(
