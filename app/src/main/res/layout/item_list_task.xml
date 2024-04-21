@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_id"
-            tools:text="Rafi Triandy" />
+            tools:text="TITLE TEST" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_body"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="23" />
+            tools:text="BODY TEST" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_note"
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_body"
-            tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
+            tools:text="NOTE TEST" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_status"
@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_note"
-            tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
+            tools:text="COMPLETED" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
