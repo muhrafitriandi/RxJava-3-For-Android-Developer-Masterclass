@@ -1,5 +1,6 @@
-package com.yandey.rxjava3_android.data.remote
+package com.yandey.rxjava3_android.data.remote.network
 
+import com.yandey.rxjava3_android.data.remote.EndPoint
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
