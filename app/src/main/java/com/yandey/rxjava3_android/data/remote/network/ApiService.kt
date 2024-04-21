@@ -9,5 +9,5 @@ import retrofit2.http.Headers
 interface ApiService {
     @Headers(EndPoint.HEADER_ACCEPT)
     @GET(EndPoint.GET_ALL_TASK)
-    fun getListRestaurant(): Single<TaskResponse>
+    fun getAllTask(): Single<TaskResponse>
 }
