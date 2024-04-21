@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,12 +9,17 @@ android {
     namespace = "com.yandey.rxjava3_android"
     compileSdk = 34
 
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+    localProperties.load(localPropertiesFile.inputStream())
+
     defaultConfig {
         applicationId = "com.yandey.rxjava3_android"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "BASE_URL", "\"${localProperties.getProperty("BASE_URL")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,6 +61,9 @@ dependencies {
     // https://square.github.io/retrofit/
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // https://github.com/square/retrofit/tree/trunk/retrofit-adapters/rxjava3
+    implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
 
     // https://github.com/square/okhttp
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
