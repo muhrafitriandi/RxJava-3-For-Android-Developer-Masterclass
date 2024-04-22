@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.TaskAdapter
 import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
+import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
+import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddTaskBinding
+import com.yandey.rxjava3_android.util.showDialog
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy {
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.fab_add_task -> showAddDialog()
+            R.id.fab_add_task -> upsertDialog()
         }
     }
 
@@ -70,33 +72,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showAddDialog() {
+    private fun upsertDialog(isUpdate: Boolean = false, existingTask: TaskResponseItem? = null) {
         val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
 
-        MaterialAlertDialogBuilder(this@MainActivity)
-            .setTitle("Add Task")
-            .setMessage("Please enter the task's information below.")
-            .setView(dialogBinding.root)
-            .setNeutralButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setPositiveButton("Save") { _, _ ->
+        if (isUpdate && existingTask != null) {
+            dialogBinding.etTitle.setText(existingTask.title)
+            dialogBinding.etBody.setText(existingTask.body)
+            dialogBinding.etNote.setText(existingTask.note)
+            dialogBinding.etStatus.setText(existingTask.status)
+        }
+
+        this.showDialog(
+            title = if (isUpdate) "Update Task" else "Add Task",
+            message = "Please enter the task's information below.",
+            view = dialogBinding.root,
+            neutralButtonText = "Cancel",
+            onNeutralAction = { it.dismiss() },
+            positiveButtonText = if (isUpdate) "Update" else "Save",
+            onPositiveAction = {
                 val title = dialogBinding.etTitle.text.toString()
                 val body = dialogBinding.etBody.text.toString()
                 val note = dialogBinding.etNote.text.toString()
                 val status = dialogBinding.etStatus.text.toString()
 
-                viewModel.addTask(
-                    AddTaskBody(
-                        userId = (1..10).random(),
-                        title = title,
-                        body = body,
-                        note = note,
-                        status = status
-                    )
-                )
+                if (isUpdate && existingTask != null) {
+                    viewModel.editTask(EditTaskBody(title = title, body = body, note = note, status = status, taskId = existingTask.id, userId = existingTask.id))
+                } else {
+                    viewModel.addTask(AddTaskBody(userId = (1..10).random(), title = title, body = body, note = note, status = status))
+                }
             }
-            .show()
+        )
     }
 
     private fun initTaskAdapter() = with(binding) {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.yandey.rxjava3_android.data.remote.mock.mockTaskResponse
 import com.yandey.rxjava3_android.data.remote.network.ApiService
 import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
+import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponse
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 import io.reactivex.rxjava3.core.Completable
@@ -35,6 +36,17 @@ class TaskRepositoryImpl(
             )
         )
         return apiService.addTask(request)
+    }
+
+    override fun editTask(request: EditTaskBody): Completable {
+        val editedItem = mockTaskResponse.taskResponse.find { it.id == request.taskId }
+        val (note, _, userId, title, body, status) = request
+
+        editedItem?.let { taskResponseItem ->
+            taskResponseItem.copy(note = note, userId = userId, title = title, body = body, status = status)
+        }
+
+        return apiService.editTask(userId, request)
     }
 
     companion object {

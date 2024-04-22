@@ -48,6 +48,12 @@ object ApiConfig {
                     { "{}" },
                     200,
                     1500
+                )
+                .mock(
+                    "${BuildConfig.BASE_URL}${EndPoint.EDIT_TASK}",
+                    { "{}" },
+                    200,
+                    1500
                 ),
             cacheDir,
             cacheSize
