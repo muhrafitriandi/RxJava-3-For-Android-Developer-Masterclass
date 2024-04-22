@@ -60,6 +60,12 @@ object ApiConfig {
                     { "{}" },
                     200,
                     1500
+                )
+                .mock(
+                    "${BuildConfig.BASE_URL}${EndPoint.SEARCH_TASK}",
+                    { Gson().toJson(mockTaskResponse) },
+                    200,
+                    1500
                 ),
             cacheDir,
             cacheSize

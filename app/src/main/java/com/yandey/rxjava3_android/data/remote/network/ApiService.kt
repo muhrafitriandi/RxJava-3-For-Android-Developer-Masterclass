@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface ApiService {
     @Headers(EndPoint.HEADER_ACCEPT)
@@ -29,4 +30,8 @@ interface ApiService {
     @Headers(EndPoint.HEADER_ACCEPT)
     @POST(EndPoint.DELETE_TASK)
     fun deleteTask(@Body request: DeleteTaskBody): Completable
+
+    @Headers(EndPoint.HEADER_ACCEPT)
+    @GET(EndPoint.SEARCH_TASK)
+    fun searchTask(@Path("query") query: String): Single<TaskResponse>
 }

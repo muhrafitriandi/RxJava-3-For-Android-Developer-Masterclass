@@ -58,6 +58,10 @@ class TaskRepositoryImpl(
         return apiService.deleteTask(request)
     }
 
+    override fun searchTask(query: String): Single<TaskResponse> {
+        return apiService.searchTask(query)
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: TaskRepository? = null

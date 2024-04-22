@@ -6,4 +6,5 @@ object EndPoint {
     const val ADD_TASK = "api/no_auth/add_task"
     const val EDIT_TASK = "api/no_auth/update_task"
     const val DELETE_TASK = "api/no_auth/delete_task"
+    const val SEARCH_TASK = "api/no_auth/search/{query}"
 }

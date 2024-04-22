@@ -12,4 +12,5 @@ interface TaskRepository {
     fun addTask(request: AddTaskBody): Completable
     fun editTask(request: EditTaskBody): Completable
     fun deleteTask(request: DeleteTaskBody): Completable
+    fun searchTask(query: String): Single<TaskResponse>
 }
