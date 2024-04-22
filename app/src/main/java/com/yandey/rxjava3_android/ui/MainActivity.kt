@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.TaskAdapter
+import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddTaskBinding
 
@@ -58,9 +59,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             is MainUiState.Error -> {
                 // Do Something
             }
+
             MainUiState.Loading -> {
                 // Do Something
             }
+
             is MainUiState.Success -> {
                 onSuccess(uiState)
             }
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showAddDialog() {
         val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
 
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(this@MainActivity)
             .setTitle("Add Task")
             .setMessage("Please enter the task's information below.")
             .setView(dialogBinding.root)
@@ -78,7 +81,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 dialog.dismiss()
             }
             .setPositiveButton("Save") { _, _ ->
+                val title = dialogBinding.etTitle.text.toString()
+                val body = dialogBinding.etBody.text.toString()
+                val note = dialogBinding.etNote.text.toString()
+                val status = dialogBinding.etStatus.text.toString()
 
+                viewModel.addTask(
+                    AddTaskBody(
+                        userId = (1..10).random(),
+                        title = title,
+                        body = body,
+                        note = note,
+                        status = status
+                    )
+                )
             }
             .show()
     }
