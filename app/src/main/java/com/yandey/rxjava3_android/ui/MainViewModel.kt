@@ -41,9 +41,11 @@ class MainViewModel(
         taskRepository.addTask(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                getAllTask()
+            }
             .subscribe(
                 {
-                    getAllTask()
                 },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())
@@ -53,15 +55,21 @@ class MainViewModel(
             }
     }
 
-    fun editTask(request: EditTaskBody) {
+    fun editTask(
+        request: EditTaskBody,
+        onEditComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         taskRepository.editTask(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                getAllTask()
+            }
             .subscribe(
                 {
-                    getAllTask()
+                    onEditComplete()
                 },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())

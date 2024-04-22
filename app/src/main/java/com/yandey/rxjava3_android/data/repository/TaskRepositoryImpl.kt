@@ -42,11 +42,12 @@ class TaskRepositoryImpl(
         val editedItem = mockTaskResponse.taskResponse.find { it.id == request.taskId }
         val (note, _, userId, title, body, status) = request
 
-        editedItem?.let { taskResponseItem ->
-            taskResponseItem.copy(note = note, userId = userId, title = title, body = body, status = status)
+        if (editedItem != null) {
+            val updatedItem = editedItem.copy(note = note, userId = userId, title = title, body = body, status = status)
+            mockTaskResponse.taskResponse.replaceAll { if (it.id == request.taskId) updatedItem else it }
         }
 
-        return apiService.editTask(userId, request)
+        return apiService.editTask(request)
     }
 
     companion object {

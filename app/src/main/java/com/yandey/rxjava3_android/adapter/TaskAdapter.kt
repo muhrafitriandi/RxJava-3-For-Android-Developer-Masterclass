@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 import com.yandey.rxjava3_android.databinding.ItemListTaskBinding
 
-class TaskAdapter : ListAdapter<TaskResponseItem, TaskAdapter.TaskViewHolder>(DIFF_CALLBACK) {
+class TaskAdapter(
+    private val onEditListener: (TaskResponseItem) -> Unit,
+) : ListAdapter<TaskResponseItem, TaskAdapter.TaskViewHolder>(DIFF_CALLBACK) {
 
-    class TaskViewHolder(
+    inner class TaskViewHolder(
         private val binding: ItemListTaskBinding
     ) : ViewHolder(binding.root) {
         fun bind(item: TaskResponseItem) = with(binding) {
@@ -19,6 +21,8 @@ class TaskAdapter : ListAdapter<TaskResponseItem, TaskAdapter.TaskViewHolder>(DI
             tvBody.text = item.body
             tvNote.text = item.note
             tvStatus.text = item.status
+
+            ibEdit.setOnClickListener { onEditListener(item) }
         }
     }
 

@@ -24,5 +24,5 @@ interface ApiService {
 
     @Headers(EndPoint.HEADER_ACCEPT)
     @PUT(EndPoint.EDIT_TASK)
-    fun editTask(@Path("taskId") taskId: Int, @Body request: EditTaskBody): Completable
+    fun editTask(@Body request: EditTaskBody): Completable
 }

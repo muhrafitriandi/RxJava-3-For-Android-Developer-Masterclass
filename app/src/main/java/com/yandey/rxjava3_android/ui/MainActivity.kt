@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private val taskAdapter by lazy {
-        TaskAdapter()
+        TaskAdapter(
+            onEditListener = { upsertDialog(true, it) }
+        )
     }
 
     private val linearLayoutManager by lazy {
@@ -96,7 +98,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val status = dialogBinding.etStatus.text.toString()
 
                 if (isUpdate && existingTask != null) {
-                    viewModel.editTask(EditTaskBody(title = title, body = body, note = note, status = status, taskId = existingTask.id, userId = existingTask.id))
+                    viewModel.editTask(EditTaskBody(title = title, body = body, note = note, status = status, taskId = existingTask.id, userId = existingTask.id)) {
+
+                    }
                 } else {
                     viewModel.addTask(AddTaskBody(userId = (1..10).random(), title = title, body = body, note = note, status = status))
                 }
