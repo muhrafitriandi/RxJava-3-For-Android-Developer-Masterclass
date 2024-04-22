@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class TaskResponse(
 
     @field:SerializedName("TaskResponse")
-    val taskResponse: List<TaskResponseItem>
+    val taskResponse: MutableList<TaskResponseItem>
 )

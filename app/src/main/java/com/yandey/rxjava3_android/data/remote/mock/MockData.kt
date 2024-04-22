@@ -4,7 +4,7 @@ import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponse
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 
 val mockTaskResponse = TaskResponse(
-    taskResponse = listOf(
+    taskResponse = mutableListOf(
         TaskResponseItem(
             note = "Note 1",
             updatedAt = "2024-04-21T08:00:00Z",
