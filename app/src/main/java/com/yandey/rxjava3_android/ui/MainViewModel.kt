@@ -36,7 +36,10 @@ class MainViewModel(
             }
     }
 
-    fun addTask(request: AddTaskBody) {
+    fun addTask(
+        request: AddTaskBody,
+        onAddComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         taskRepository.addTask(request)
@@ -47,6 +50,7 @@ class MainViewModel(
             }
             .subscribe(
                 {
+                    onAddComplete()
                 },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())

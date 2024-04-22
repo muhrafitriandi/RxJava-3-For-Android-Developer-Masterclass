@@ -13,6 +13,8 @@ import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 import com.yandey.rxjava3_android.databinding.DialogAddTaskBinding
+import com.yandey.rxjava3_android.util.setGone
+import com.yandey.rxjava3_android.util.setVisible
 import com.yandey.rxjava3_android.util.showDialog
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -63,11 +65,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun render(uiState: MainUiState) {
         when (uiState) {
             is MainUiState.Error -> {
-                // Do Something
+                onError(uiState)
             }
 
             MainUiState.Loading -> {
-                // Do Something
+                onLoad()
             }
 
             is MainUiState.Success -> {
@@ -101,10 +103,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (isUpdate && existingTask != null) {
                     viewModel.editTask(EditTaskBody(title = title, body = body, note = note, status = status, taskId = existingTask.id, userId = existingTask.id)) {
-
+                        upsertSuccessDialog()
                     }
                 } else {
-                    viewModel.addTask(AddTaskBody(userId = (1..10).random(), title = title, body = body, note = note, status = status))
+                    viewModel.addTask(AddTaskBody(userId = (1..10).random(), title = title, body = body, note = note, status = status)) {
+                        upsertSuccessDialog()
+                    }
                 }
             }
         )
@@ -119,9 +123,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             positiveButtonText = "Delete",
             onPositiveAction = {
                 viewModel.deleteTask(DeleteTaskBody(taskId = existingTask.id, userId = existingTask.userId)) {
-
+                    deletedSuccessDialog()
                 }
             }
+        )
+    }
+
+    private fun upsertSuccessDialog() {
+        this@MainActivity.showDialog(
+            title = "Great!",
+            message = "Your data was saved successfully",
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
+        )
+    }
+
+    private fun deletedSuccessDialog() {
+        this@MainActivity.showDialog(
+            title = "Great!",
+            message = "Your data was deleted successfully",
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
         )
     }
 
@@ -133,7 +155,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun onSuccess(uiState: MainUiState.Success) {
+    private fun onSuccess(uiState: MainUiState.Success) = with(binding) {
         taskAdapter.submitList(uiState.taskResponse)
+        rvTask.post { rvTask.scrollToPosition(0) }
+        pbTask.setGone()
+        rvTask.setVisible()
+    }
+
+    private fun onLoad() = with(binding) {
+        pbTask.setVisible()
+        rvTask.setGone()
+    }
+
+    private fun onError(uiState: MainUiState.Error) = with(binding) {
+        pbTask.setGone()
+        this@MainActivity.showDialog(
+            title = "Error!",
+            message = uiState.message,
+            positiveButtonText = "OK",
+            onPositiveAction = { it.dismiss() }
+        )
     }
 }
