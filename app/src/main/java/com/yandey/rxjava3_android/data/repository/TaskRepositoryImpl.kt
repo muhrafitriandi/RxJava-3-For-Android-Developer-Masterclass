@@ -52,6 +52,9 @@ class TaskRepositoryImpl(
     }
 
     override fun deleteTask(request: DeleteTaskBody): Completable {
+        val deletedItem = mockTaskResponse.taskResponse.find { it.id == request.taskId && it.userId == request.userId }
+        mockTaskResponse.taskResponse.remove(deletedItem)
+
         return apiService.deleteTask(request)
     }
 

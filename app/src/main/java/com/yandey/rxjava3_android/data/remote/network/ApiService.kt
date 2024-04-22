@@ -8,12 +8,10 @@ import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponse
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.Path
 
 interface ApiService {
     @Headers(EndPoint.HEADER_ACCEPT)
@@ -29,6 +27,6 @@ interface ApiService {
     fun editTask(@Body request: EditTaskBody): Completable
 
     @Headers(EndPoint.HEADER_ACCEPT)
-    @DELETE(EndPoint.DELETE_TASK)
+    @POST(EndPoint.DELETE_TASK)
     fun deleteTask(@Body request: DeleteTaskBody): Completable
 }

@@ -10,6 +10,7 @@ import com.yandey.rxjava3_android.databinding.ItemListTaskBinding
 
 class TaskAdapter(
     private val onEditListener: (TaskResponseItem) -> Unit,
+    private val onDeleteListener: (TaskResponseItem) -> Unit,
 ) : ListAdapter<TaskResponseItem, TaskAdapter.TaskViewHolder>(DIFF_CALLBACK) {
 
     inner class TaskViewHolder(
@@ -23,6 +24,7 @@ class TaskAdapter(
             tvStatus.text = item.status
 
             ibEdit.setOnClickListener { onEditListener(item) }
+            ibDelete.setOnClickListener { onDeleteListener(item) }
         }
     }
 

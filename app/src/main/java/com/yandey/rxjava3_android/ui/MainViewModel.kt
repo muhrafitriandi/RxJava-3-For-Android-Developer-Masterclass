@@ -80,7 +80,10 @@ class MainViewModel(
             }
     }
 
-    fun deleteTask(request: DeleteTaskBody) {
+    fun deleteTask(
+        request: DeleteTaskBody,
+        onDeleteComplete: () -> Unit
+    ) {
         uiState.value = MainUiState.Loading
 
         taskRepository.deleteTask(request)
@@ -91,6 +94,7 @@ class MainViewModel(
             }
             .subscribe(
                 {
+                    onDeleteComplete()
                 },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())

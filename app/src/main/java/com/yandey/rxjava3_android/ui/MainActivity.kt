@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yandey.rxjava3_android.R
 import com.yandey.rxjava3_android.adapter.TaskAdapter
 import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
+import com.yandey.rxjava3_android.data.remote.response.delete_task.DeleteTaskBody
 import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
@@ -25,7 +26,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val taskAdapter by lazy {
         TaskAdapter(
-            onEditListener = { upsertDialog(true, it) }
+            onEditListener = { upsertDialog(true, it) },
+            onDeleteListener = { deleteDialog(it) }
         )
     }
 
@@ -103,6 +105,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 } else {
                     viewModel.addTask(AddTaskBody(userId = (1..10).random(), title = title, body = body, note = note, status = status))
+                }
+            }
+        )
+    }
+
+    private fun deleteDialog(existingTask: TaskResponseItem) {
+        this.showDialog(
+            title = "Delete Task",
+            message = "Are you sure want to delete `${existingTask.title}`?",
+            neutralButtonText = "Cancel",
+            onNeutralAction = { it.dismiss() },
+            positiveButtonText = "Delete",
+            onPositiveAction = {
+                viewModel.deleteTask(DeleteTaskBody(taskId = existingTask.id, userId = existingTask.userId)) {
+
                 }
             }
         )
