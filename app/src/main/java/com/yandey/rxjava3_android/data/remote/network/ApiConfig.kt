@@ -54,6 +54,12 @@ object ApiConfig {
                     { "{}" },
                     200,
                     1500
+                )
+                .mock(
+                    "${BuildConfig.BASE_URL}${EndPoint.DELETE_TASK}",
+                    { "{}" },
+                    200,
+                    1500
                 ),
             cacheDir,
             cacheSize

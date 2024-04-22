@@ -2,6 +2,7 @@ package com.yandey.rxjava3_android.ui
 
 import com.yandey.rxjava3_android.base.BaseViewModel
 import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
+import com.yandey.rxjava3_android.data.remote.response.delete_task.DeleteTaskBody
 import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
 import com.yandey.rxjava3_android.data.repository.TaskRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -70,6 +71,26 @@ class MainViewModel(
             .subscribe(
                 {
                     onEditComplete()
+                },
+                { error ->
+                    uiState.value = MainUiState.Error(error.message.toString())
+                }
+            ).also {
+                compositeDisposable.add(it)
+            }
+    }
+
+    fun deleteTask(request: DeleteTaskBody) {
+        uiState.value = MainUiState.Loading
+
+        taskRepository.deleteTask(request)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                getAllTask()
+            }
+            .subscribe(
+                {
                 },
                 { error ->
                     uiState.value = MainUiState.Error(error.message.toString())

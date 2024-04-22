@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.yandey.rxjava3_android.data.remote.mock.mockTaskResponse
 import com.yandey.rxjava3_android.data.remote.network.ApiService
 import com.yandey.rxjava3_android.data.remote.response.add_task.AddTaskBody
+import com.yandey.rxjava3_android.data.remote.response.delete_task.DeleteTaskBody
 import com.yandey.rxjava3_android.data.remote.response.edit_task.EditTaskBody
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponse
 import com.yandey.rxjava3_android.data.remote.response.get_tasks.TaskResponseItem
@@ -48,6 +49,10 @@ class TaskRepositoryImpl(
         }
 
         return apiService.editTask(request)
+    }
+
+    override fun deleteTask(request: DeleteTaskBody): Completable {
+        return apiService.deleteTask(request)
     }
 
     companion object {
