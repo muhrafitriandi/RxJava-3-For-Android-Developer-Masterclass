@@ -28,7 +28,7 @@ class TaskRepositoryImpl(
                 updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(Date()),
                 userId = userId,
                 createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(Date()),
-                id = (1..10_000).random(),
+                id = mockTaskResponse.taskResponse.size + 1,
                 title = title,
                 body = body,
                 status = status
