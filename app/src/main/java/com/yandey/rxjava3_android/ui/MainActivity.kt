@@ -71,7 +71,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnQueryTextListe
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        return false
+        newText?.let {
+            viewModel.searchTaskByName(it)
+        }
+        return true
     }
 
     override fun onClick(v: View) {

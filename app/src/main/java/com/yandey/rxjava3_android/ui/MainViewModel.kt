@@ -117,11 +117,10 @@ class MainViewModel(
             .debounce(1, TimeUnit.SECONDS)
             .distinctUntilChanged()
             .doOnNext { uiState.postValue(MainUiState.Loading) }
-            .flatMap { query ->
+            .flatMapSingle { query ->
                 taskRepository.searchTask(query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .toObservable()
             }
             .subscribe(
                 { response ->

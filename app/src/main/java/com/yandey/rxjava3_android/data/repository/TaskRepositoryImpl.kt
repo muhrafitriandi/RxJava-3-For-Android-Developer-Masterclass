@@ -60,6 +60,12 @@ class TaskRepositoryImpl(
 
     override fun searchTask(query: String): Single<TaskResponse> {
         return apiService.searchTask(query)
+            .map { response ->
+                val filteredTasks = response.taskResponse.filter { task ->
+                    task.title.contains(query)
+                }.toMutableList()
+                TaskResponse(filteredTasks)
+            }
     }
 
     companion object {

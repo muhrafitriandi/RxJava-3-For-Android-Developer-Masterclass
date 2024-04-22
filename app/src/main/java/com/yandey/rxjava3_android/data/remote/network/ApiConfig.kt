@@ -1,5 +1,6 @@
 package com.yandey.rxjava3_android.data.remote.network
 
+import android.util.Log
 import com.google.gson.Gson
 import com.yandey.rxjava3_android.BuildConfig
 import com.yandey.rxjava3_android.data.remote.mock.MockNetworkInterceptor
@@ -62,7 +63,7 @@ object ApiConfig {
                     1500
                 )
                 .mock(
-                    "${BuildConfig.BASE_URL}${EndPoint.SEARCH_TASK}",
+                    "${BuildConfig.BASE_URL}api/no_auth/search/1",
                     { Gson().toJson(mockTaskResponse) },
                     200,
                     1500
