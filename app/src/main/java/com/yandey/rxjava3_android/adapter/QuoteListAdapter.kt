@@ -2,13 +2,13 @@ package com.yandey.rxjava3_android.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.yandey.rxjava3_android.data.remote.response.QuoteResponseItem
 import com.yandey.rxjava3_android.databinding.ItemListQuoteBinding
 
-class QuoteListAdapter : ListAdapter<QuoteResponseItem, QuoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class QuoteListAdapter : PagingDataAdapter<QuoteResponseItem, QuoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     class MyViewHolder(private val binding: ItemListQuoteBinding) : ViewHolder(binding.root) {
         fun bind(data: QuoteResponseItem) {
