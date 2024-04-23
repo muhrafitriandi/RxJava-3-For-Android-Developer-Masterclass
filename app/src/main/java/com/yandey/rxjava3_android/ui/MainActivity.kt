@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yandey.rxjava3_android.adapter.LoadingStateAdapter
 import com.yandey.rxjava3_android.adapter.QuoteListAdapter
 import com.yandey.rxjava3_android.databinding.ActivityMainBinding
 
@@ -59,7 +60,9 @@ class MainActivity : AppCompatActivity() {
         with(rvQuote) {
             layoutManager = linearLayoutManager
             setHasFixedSize(true)
-            adapter = quoteAdapter
+            adapter = quoteAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter { quoteAdapter.retry() }
+            )
         }
     }
 
