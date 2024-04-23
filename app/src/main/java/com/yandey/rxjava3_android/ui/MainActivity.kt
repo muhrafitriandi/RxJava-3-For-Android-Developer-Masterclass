@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        // Starter
+
         viewModel.uiState().observe(this) { uiState ->
             if (uiState != null) {
                 render(uiState)
