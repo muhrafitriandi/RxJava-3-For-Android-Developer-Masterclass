@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSuccess(uiState: MainUiState.Success) = with(binding) {
-        quoteAdapter.submitList(uiState.quoteResponse)
+        quoteAdapter.submitData(lifecycle, uiState.quoteResponse)
         rvQuote.post { rvQuote.scrollToPosition(0) }
     }
 
