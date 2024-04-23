@@ -68,6 +68,10 @@ dependencies {
     // https://github.com/square/retrofit/tree/trunk/retrofit-adapters/rxjava3
     implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
 
+    // https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=id
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-rxjava3:3.2.1")
+
     // https://github.com/square/okhttp
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
